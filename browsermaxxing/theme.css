@@ -1,0 +1,163 @@
+/* Browsermaxxing 0.1 · browser chrome only, no userContent.css.
+ * Selectors checked against the installed Gecko browser styles.
+ * Never hide identity, tracking protection, permission, private, container,
+ * audio or fullscreen indicators. Retain native layout and keyboard behavior.
+ */
+:root {
+  --tab-border-radius: 0px !important;
+  --tab-min-height: 32px !important;
+  --tab-margin-block: 4px !important;
+  --tab-box-shadow-selected: none !important;
+  --toolbarbutton-border-radius: 0px !important;
+  --toolbarbutton-inner-padding: 6px !important;
+  --toolbarbutton-hover-background: var(--bmx-hover) !important;
+  --toolbarbutton-active-background: var(--bmx-border) !important;
+  --toolbar-bgcolor: var(--bmx-surface) !important;
+  --toolbar-color: var(--bmx-text) !important;
+  --toolbar-field-background-color: var(--bmx-bg) !important;
+  --toolbar-field-focus-background-color: var(--bmx-bg) !important;
+  --toolbar-field-color: var(--bmx-text) !important;
+  --toolbar-field-focus-color: var(--bmx-text) !important;
+  --toolbar-field-border-color: var(--bmx-border) !important;
+  --toolbar-field-focus-border-color: var(--bmx-text) !important;
+  --lwt-accent-color: var(--bmx-bg) !important;
+  --lwt-text-color: var(--bmx-text) !important;
+  --lwt-tab-text: var(--bmx-text) !important;
+  --lwt-tab-background-color: var(--bmx-bg) !important;
+  --lwt-selected-tab-background-color: var(--bmx-selected) !important;
+  --lwt-tab-line-color: var(--bmx-selected) !important;
+  --tab-background-color-selected: var(--bmx-selected) !important;
+  --tab-text-color-selected: var(--bmx-selected-text) !important;
+  --arrowpanel-background: var(--bmx-surface) !important;
+  --arrowpanel-color: var(--bmx-text) !important;
+  --arrowpanel-border-color: var(--bmx-border) !important;
+  --arrowpanel-border-radius: 0px !important;
+  --arrowpanel-menuitem-border-radius: 0px !important;
+  --panel-border-radius: 0px !important;
+  --panel-shadow: none !important;
+  --input-border-radius: 0px !important;
+  --border-radius-small: 0px !important;
+  --border-radius-medium: 0px !important;
+  --border-radius-large: 0px !important;
+  --border-radius-xlarge: 0px !important;
+  --focus-outline-color: var(--bmx-text) !important;
+  --urlbarView-highlight-background: var(--bmx-selected) !important;
+  --urlbarView-highlight-color: var(--bmx-selected-text) !important;
+}
+
+/* Keep the browser's touch density useful. */
+:root[uidensity="touch"] { --tab-min-height: 41px !important; }
+:root[uidensity="compact"] { --tab-min-height: 28px !important; }
+
+#navigator-toolbox {
+  background: var(--bmx-bg) !important;
+  color: var(--bmx-text) !important;
+  border-bottom: 1px solid var(--bmx-border) !important;
+  box-shadow: none !important;
+}
+#navigator-toolbox, #urlbar, #searchbar, #sidebar-header,
+#appMenu-popup, #customizationui-widget-panel {
+  font-family: "Cascadia Mono", "Liberation Mono", monospace !important;
+  font-size: 13px !important;
+}
+#TabsToolbar, #toolbar-menubar {
+  background: var(--bmx-bg) !important;
+  color: var(--bmx-text) !important;
+}
+#nav-bar, #PersonalToolbar {
+  background: var(--bmx-surface) !important;
+  color: var(--bmx-text) !important;
+  box-shadow: none !important;
+}
+#nav-bar { border-top: 1px solid var(--bmx-border) !important; }
+
+/* Native tab sizing, scrolling, pinning and vertical placement stay intact. */
+.tab-background {
+  border: 1px solid var(--bmx-border) !important;
+  border-radius: 0 !important;
+  background: var(--bmx-surface) !important;
+  box-shadow: none !important;
+}
+.tabbrowser-tab:hover:not([selected], [visuallyselected], [visually-selected]) .tab-background {
+  background: var(--bmx-hover) !important;
+}
+.tabbrowser-tab:is([selected], [visuallyselected], [visually-selected]) .tab-background {
+  background: var(--bmx-selected) !important;
+  border-color: var(--bmx-selected) !important;
+}
+.tabbrowser-tab:is([selected], [visuallyselected], [visually-selected]) {
+  color: var(--bmx-selected-text) !important;
+}
+.tabbrowser-tab[multiselected]:not([selected], [visuallyselected], [visually-selected]) .tab-background {
+  border-color: var(--bmx-text) !important;
+  border-bottom-width: 3px !important;
+}
+.tab-close-button, .tab-icon-overlay, .tab-content,
+.toolbarbutton-icon, .toolbarbutton-badge-stack,
+#tabs-newtab-button, #new-tab-button, .titlebar-button,
+.identity-box-button, #tracking-protection-icon-container {
+  border-radius: 0 !important;
+}
+
+/* Address, search and completion list. Keep their native expand/focus layout. */
+#urlbar-background, #searchbar {
+  background: var(--bmx-bg) !important;
+  color: var(--bmx-text) !important;
+  border: 1px solid var(--bmx-border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+#urlbar[focused] > #urlbar-background,
+#searchbar:focus-within {
+  border-color: var(--bmx-text) !important;
+  outline: 1px solid var(--bmx-text) !important;
+  outline-offset: 0 !important;
+}
+#urlbar-input, #searchbar input { color: var(--bmx-text) !important; }
+#urlbar-input::selection, #searchbar input::selection {
+  background: var(--bmx-selected) !important;
+  color: var(--bmx-selected-text) !important;
+}
+.urlbarView {
+  background: var(--bmx-surface) !important;
+  color: var(--bmx-text) !important;
+  border-color: var(--bmx-border) !important;
+}
+.urlbarView-row-inner, .urlbarView-button {
+  border-radius: 0 !important;
+}
+
+/* Panels remain accessible through the normal browser controls. */
+panel { --panel-shadow: none !important; }
+panel::part(content) {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+panelview, #sidebar-box, #sidebar-main, #sidebar-header {
+  background-color: var(--bmx-surface) !important;
+  color: var(--bmx-text) !important;
+}
+.subviewbutton, .panel-subview-body toolbarbutton,
+#sidebar-box, #sidebar-main, #sidebar-header,
+.findbar-container :is(button, textbox, input), findbar {
+  border-radius: 0 !important;
+}
+findbar {
+  background: var(--bmx-surface) !important;
+  color: var(--bmx-text) !important;
+  border-top: 1px solid var(--bmx-border) !important;
+}
+
+/* High-contrast/forced-colors users keep the system's contrast decisions. */
+@media (forced-colors: active) {
+  :root {
+    --bmx-bg: Canvas;
+    --bmx-surface: Canvas;
+    --bmx-hover: ButtonFace;
+    --bmx-border: ButtonText;
+    --bmx-text: CanvasText;
+    --bmx-muted: CanvasText;
+    --bmx-selected: Highlight;
+    --bmx-selected-text: HighlightText;
+  }
+}

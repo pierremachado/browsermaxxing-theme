@@ -1,0 +1,12 @@
+/* Browsermaxxing · dark */
+:root {
+  color-scheme: dark !important;
+  --bmx-bg: #131313;
+  --bmx-surface: #1f1f1f;
+  --bmx-hover: #303030;
+  --bmx-border: #474747;
+  --bmx-text: #e2e2e2;
+  --bmx-muted: #c6c6c6;
+  --bmx-selected: #ffffff;
+  --bmx-selected-text: #1b1b1b;
+}

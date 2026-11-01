@@ -1,0 +1,5 @@
+/* Copy this file and the browsermaxxing folder into your profile's chrome folder.
+ * Change palette-dark.css to palette-light.css or palette-auto.css if desired.
+ */
+@import url("browsermaxxing/palette-dark.css");
+@import url("browsermaxxing/theme.css");

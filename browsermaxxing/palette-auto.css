@@ -1,0 +1,15 @@
+/* Follow the color preference received by the browser chrome. */
+@import url("palette-dark.css");
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light !important;
+    --bmx-bg: #f4f4f4;
+    --bmx-surface: #ffffff;
+    --bmx-hover: #e2e2e2;
+    --bmx-border: #b2b2b2;
+    --bmx-text: #1b1b1b;
+    --bmx-muted: #474747;
+    --bmx-selected: #1b1b1b;
+    --bmx-selected-text: #ffffff;
+  }
+}
