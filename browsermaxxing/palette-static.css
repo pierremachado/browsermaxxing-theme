@@ -1,0 +1,8 @@
+/* Native theme tokens overridden only for the fixed palettes. */
+:root {
+  --toolbar-bgcolor: var(--bmx-surface) !important;
+  --toolbar-color: var(--bmx-text) !important;
+  --lwt-accent-color: var(--bmx-bg) !important;
+  --tab-background-color-selected: var(--bmx-selected) !important;
+  --tab-text-color-selected: var(--bmx-selected-text) !important;
+}

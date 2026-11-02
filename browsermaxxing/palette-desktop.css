@@ -1,0 +1,13 @@
+/* Dynamic theme colors supplied by Browsermaxxing Pages via browser.theme.
+ * These native variables must not be overridden by palette-static.css here.
+ */
+:root {
+  --bmx-bg: var(--lwt-accent-color, #131313);
+  --bmx-surface: var(--toolbar-background-color, var(--toolbar-bgcolor, #1f1f1f));
+  --bmx-text: var(--toolbar-text-color, var(--toolbar-color, #e2e2e2));
+  --bmx-muted: color-mix(in srgb, var(--bmx-text) 75%, var(--bmx-bg));
+  --bmx-hover: color-mix(in srgb, var(--bmx-text) 12%, var(--bmx-surface));
+  --bmx-border: var(--chrome-content-separator-color, #474747);
+  --bmx-selected: var(--tab-background-color-selected, #ffffff);
+  --bmx-selected-text: var(--tab-text-color-selected, #1b1b1b);
+}

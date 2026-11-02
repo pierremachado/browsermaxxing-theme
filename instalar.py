@@ -130,7 +130,7 @@ def run(args):
     for relative in relatives:
         path = checked_path(profile, relative)
         data = read_file(path)
-        original[relative] = old["files"][relative]["original"] if old else (
+        original[relative] = old["files"][relative]["original"] if old and relative in old["files"] else (
             base64.b64encode(data).decode("ascii") if data is not None else None)
     def previous(relative):
         value = original[relative]
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     target.add_argument("--profile", help="Diretório raiz do perfil, não o diretório de cache")
     target.add_argument("--librewolf", action="store_true", help="Seleciona se houver um único perfil LibreWolf")
     parser.add_argument("--list-profiles", action="store_true")
-    parser.add_argument("--mode", choices=("dark", "light", "auto"), default="dark")
+    parser.add_argument("--mode", choices=("dark", "light", "auto", "desktop"), default="dark")
     parser.add_argument("--remove", action="store_true")
     try:
         run(parser.parse_args())
