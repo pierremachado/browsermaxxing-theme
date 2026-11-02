@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
-"""Read desktop color exports. Native messages accept source names, never paths."""
+"""Read GTK and Qt palette exports for the standalone browser theme."""
 import argparse
 import configparser
-import hashlib
 import json
 import os
 from pathlib import Path
 import re
-import select
-import struct
-import sys
 
-HOST = 'dev.browsermaxxing.palette'
 SOURCES = ('auto', 'gtk', 'qt')
 
 
@@ -166,93 +161,8 @@ def get_palette(source='auto'):
     return {'ok': False, 'error': 'No supported active GTK/Qt export found.'}
 
 
-def signature(source):
-    root = config_root()
-    paths = [root / f'gtk-{v}' / f for v in ('3.0', '4.0') for f in ('gtk.css', 'noctalia.css')]
-    paths += [root / f'qt{v}ct/qt{v}ct.conf' for v in ('6', '5')]
-    paths += [root / 'kdeglobals']
-    try:
-        paths += [path for _, path, _ in candidates(source)]
-    except (OSError, ValueError):
-        pass
-    result = []
-    for path in paths:
-        try:
-            stat = path.stat()
-            result.append((str(path), stat.st_mtime_ns, stat.st_size, stat.st_ino))
-        except OSError:
-            result.append((str(path), None))
-    return tuple(result)
-
-
-def read_exact(stream, count):
-    result = b''
-    while len(result) < count:
-        chunk = stream.read(count - len(result))
-        if not chunk:
-            if result:
-                raise ValueError('Truncated message')
-            return None
-        result += chunk
-    return result
-
-
-def receive(stream):
-    header = read_exact(stream, 4)
-    if header is None:
-        return None
-    length = struct.unpack('=I', header)[0]
-    if not 0 < length <= 4096:
-        raise ValueError('Invalid message size')
-    payload = read_exact(stream, length)
-    if payload is None:
-        raise ValueError('Truncated message')
-    return json.loads(payload)
-
-
-def send(value):
-    message = json.dumps(value, separators=(',', ':')).encode()
-    sys.stdout.buffer.write(struct.pack('=I', len(message)) + message)
-    sys.stdout.buffer.flush()
-
-
-def serve():
-    source, watching, previous, last = 'auto', False, None, None
-    # Unbuffered reads avoid selecting a pipe whose next message is buffered.
-    stream = os.fdopen(os.dup(sys.stdin.fileno()), 'rb', buffering=0)
-    while True:
-        if select.select([stream], [], [], 2 if watching else None)[0]:
-            request = receive(stream)
-            if request is None:
-                return
-            if not isinstance(request, dict) or request.get('command') not in ('read', 'watch'):
-                send({'ok': False, 'error': 'Unsupported command.'})
-                continue
-            if request.get('source', 'auto') not in SOURCES:
-                send({'ok': False, 'error': 'Unsupported source.'})
-                continue
-            source = request.get('source', 'auto')
-            watching = request['command'] == 'watch'
-            previous, last = None, None
-        state = signature(source)
-        if state != previous:
-            message = get_palette(source)
-            fingerprint = hashlib.sha256(json.dumps(message, sort_keys=True).encode()).digest()
-            if fingerprint != last:
-                send(message)
-                last = fingerprint
-            previous = state
-
-
 if __name__ == '__main__':
-    if '--print' in sys.argv:
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--print', action='store_true')
-        parser.add_argument('--source', choices=SOURCES, default='auto')
-        args = parser.parse_args()
-        print(json.dumps(get_palette(args.source), indent=2))
-    else:
-        try:
-            serve()
-        except (OSError, ValueError, KeyError, configparser.Error):
-            sys.exit(1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--source', choices=SOURCES, default='auto')
+    args = parser.parse_args()
+    print(json.dumps(get_palette(args.source), indent=2))

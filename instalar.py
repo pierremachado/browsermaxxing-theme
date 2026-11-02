@@ -144,6 +144,16 @@ def run(args):
     state = {"version": 1, "mode": args.mode, "files": {
         relative: {"original": original[relative], "installed_sha256": digest(data)}
         for relative, data in values.items()}}
+    if args.mode == 'desktop':
+        from desktop.palette import get_palette
+        from desktop.sync_colors import render_palette
+        result = get_palette(args.source)
+        if not result['ok']:
+            raise ValueError(result['error'])
+        relative = 'chrome/browsermaxxing/palette-desktop.css'
+        values[relative] = render_palette(result['palette'])
+        state['files'][relative]['installed_sha256'] = digest(values[relative])
+        state['desktop_source'] = args.source
     # Save the complete restoration data before mutating settings.
     write_file(state_path, json.dumps(state, indent=2).encode())
     for relative, data in values.items():
@@ -160,6 +170,7 @@ if __name__ == "__main__":
     target.add_argument("--librewolf", action="store_true", help="Seleciona se houver um único perfil LibreWolf")
     parser.add_argument("--list-profiles", action="store_true")
     parser.add_argument("--mode", choices=("dark", "light", "auto", "desktop"), default="dark")
+    parser.add_argument("--source", choices=("auto", "gtk", "qt"), default="auto")
     parser.add_argument("--remove", action="store_true")
     try:
         run(parser.parse_args())

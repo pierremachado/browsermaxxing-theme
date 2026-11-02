@@ -2,29 +2,27 @@
 
 square corners. quiet surfaces. black, white, and the space between.
 
-a userchrome theme for firefox and librewolf. dark, light, automatic, or desktop-synced.
+a standalone userchrome theme for firefox and librewolf.
 
 close the browser, then:
 
 ```sh
-python instalar.py --librewolf --mode dark
+python instalar.py --librewolf --mode desktop --source auto
 ```
 
-use `--mode light` or `--mode auto` to change the palette.
-use `--profile /path/to/profile` for firefox or a specific profile.
-use `--remove` to restore the previous files.
-
-for live gtk/qt colors:
+to sync desktop colors before opening librewolf:
 
 ```sh
-python native/install_host.py
-python instalar.py --librewolf --mode desktop
+python run.py
 ```
 
-then enable desktop colors in the companion pages extension.
-see [desktop integration](docs/desktop.md).
+use `--source gtk` or `--source qt` to select an export.
+fixed palettes are available through `--mode dark`, `light`, or `auto`.
+use `--profile /path/to/profile` for a specific profile.
+use `--remove` to restore the previous files.
 
-backups stay inside the profile. websites keep their own appearance.
+no companion extension. no resident process. new colors load at browser startup.
+see [desktop colors](docs/desktop.md).
 
 ```sh
 python -m unittest discover -s tests
